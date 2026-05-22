@@ -1,5 +1,5 @@
 """
-app.py — SOLVER TARGET (Versión unificada)
+app.py — SOLVER ST350 (Versión unificada)
 Todo en una sola página con secciones expandibles.
 """
 
@@ -14,7 +14,7 @@ from lotes_core     import preparar_pool, crear_lotes
 from asignacion_core import cargar_pedidos, asignar_pedidos
 
 st.set_page_config(
-    page_title="SOLVER TARGET",
+    page_title="SOLVER ST350",
     page_icon="🧵",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -29,7 +29,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.markdown('<p class="main-title">🧵 SOLVER TARGET</p>', unsafe_allow_html=True)
+st.markdown('<p class="main-title">🧵 SOLVER ST350</p>', unsafe_allow_html=True)
 st.markdown('<p class="subtitle">Optimización · Lotes · Asignación de Pedidos · Recomendaciones</p>',
             unsafe_allow_html=True)
 
@@ -86,7 +86,7 @@ params_solver = {
 with st.expander("📁 Sección 1 — Carga de Archivos", expanded=True):
     c1, c2, c3, c4 = st.columns(4)
     with c1:
-        f_mk = st.file_uploader("MARKERS_TARGET.xlsx", type=["xlsx"], key="mk",
+        f_mk = st.file_uploader("MARKERS_ST350.xlsx", type=["xlsx"], key="mk",
                                  help="Hojas: MARKER y MODEL")
         if f_mk:
             st.session_state["_b_mk"] = f_mk.read()
@@ -104,7 +104,7 @@ with st.expander("📁 Sección 1 — Carga de Archivos", expanded=True):
             st.success(f"✅ {st.session_state['_n_bl']}")
 
     with c3:
-        f_es = st.file_uploader("ESTANDARES_TARGET.xlsx", type=["xlsx"], key="es",
+        f_es = st.file_uploader("ESTANDARES_ST350.xlsx", type=["xlsx"], key="es",
                                  help="Hoja: Hoja1")
         if f_es:
             st.session_state["_b_es"] = f_es.read()
@@ -914,7 +914,7 @@ if res_solver or res_lotes:
                 with st.spinner("Claude analizando..."):
                     st.session_state["_ia1"]=_call_claude(
                         [{"role":"user","content":f"Analiza:\n\n{_ctx()}"}],
-                        "Eres experto en planificación textil. Analiza los datos TARGET, identifica 3 problemas críticos y da recomendaciones accionables. Responde en español con emojis."
+                        "Eres experto en planificación textil. Analiza los datos ST350, identifica 3 problemas críticos y da recomendaciones accionables. Responde en español con emojis."
                     )
             if "_ia1" in st.session_state: st.markdown(st.session_state["_ia1"])
 
@@ -942,7 +942,7 @@ if res_solver or res_lotes:
                 with st.spinner("Claude generando sugerencia..."):
                     st.session_state["_ia3"]=_call_claude(
                         [{"role":"user","content":f"Config actual:\n{cfg_str}\n\nObjetivo: {obj}"}],
-                        "Eres experto en corte textil TARGET. Sugiere: CATEGORIA, TAMAÑO_LOTE, LBS_MIN, LBS_MAX, MAX_EST_TALLA, CAPAS_MIN_MARKER, MAX_LOTES. Muestra tabla markdown y explica brevemente. Responde en español."
+                        "Eres experto en corte textil ST350. Sugiere: CATEGORIA, TAMAÑO_LOTE, LBS_MIN, LBS_MAX, MAX_EST_TALLA, CAPAS_MIN_MARKER, MAX_LOTES. Muestra tabla markdown y explica brevemente. Responde en español."
                     )
             if "_ia3" in st.session_state: st.markdown(st.session_state["_ia3"])
 
@@ -1019,9 +1019,9 @@ if res_solver or res_lotes:
             4 if res_asig else 0,
         ])
         st.download_button(
-            label="📥 Descargar REPORTE_COMPLETO_TARGET.xlsx",
+            label="📥 Descargar REPORTE_COMPLETO_ST350.xlsx",
             data=excel_bytes,
-            file_name="REPORTE_COMPLETO_TARGET.xlsx",
+            file_name="REPORTE_COMPLETO_ST350.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             type="primary",
         )

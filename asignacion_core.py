@@ -1,6 +1,6 @@
 """
 asignacion_core.py
-Motor de asignación de pedidos a lotes — TARGET
+Motor de asignación de pedidos a lotes — ST350
 
 Lógica:
   Para cada SKU (ESTILO + TALLA + COLOR):

@@ -1,6 +1,6 @@
 """
 lotes_core.py
-Motor de creación de lotes de teñido — TARGET
+Motor de creación de lotes de teñido — ST350
 
 Lógica:
   Para cada COLOR → ANCHO:
@@ -93,8 +93,13 @@ def crear_lotes(pool: pd.DataFrame, det_tallas: pd.DataFrame,
     # CSM_RIB_MARKER = suma de CSM_RIB_TALLA de todas las tallas del marker
     has_rib = "CSM_RIB_TALLA" in det_tallas.columns
     if has_rib:
+        # Deduplicar por MARKER_NAME + ESTILO + TALLA antes de sumar:
+        # CSM_RIB_TALLA es propiedad de la talla del marker, no del color.
+        # Sin esto, si el marker aparece en N colores se infla N veces,
+        # sobreestimando CSM_TOTAL_MERMA y asignando muy pocas capas por lote.
         rib_por_marker = (
-            det_tallas.groupby("MARKER_NAME")["CSM_RIB_TALLA"]
+            det_tallas.drop_duplicates(subset=["MARKER_NAME", "ESTILO", "TALLA"])
+            .groupby("MARKER_NAME")["CSM_RIB_TALLA"]
             .sum()
             .reset_index()
             .rename(columns={"CSM_RIB_TALLA": "CSM_RIB_MARKER"})

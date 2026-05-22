@@ -1,10 +1,10 @@
 """
 solver_core.py
-Motor MILP para asignación de markers TARGET.
+Motor MILP para asignación de markers ST350.
 
 Fórmulas de consumo:
   CSM_MARKER     = (ANCHO_FINAL/36) × (LENGTH/36) × (PESO_OZ/16)
-                   ANCHO_FINAL = Width_cortable + 3 pulgadas
+                   ANCHO_FINAL = Width_cortable + 2 pulgadas
   CSM_TALLA      = CSM_MARKER × (Marker_Length_% / 100)
   ESTANDAR_TALLA = (Lbs/Doc_STD / 12) × PLACED_BUNDLES
   DIFERENCIA_LBS = ESTANDAR_TALLA - CSM_TALLA   (+ = solver más eficiente)
@@ -45,7 +45,7 @@ def cargar_datos(file_markers, file_balance, file_estandares, peso_oz=3.77):
     df_marker["MARKER_NAME"]    = df_marker["MARKER_NAME"].map(norm)
     df_marker["WIDTH_CORTABLE"] = pd.to_numeric(df_marker["WIDTH_CORTABLE"], errors="coerce")
     df_marker["LENGTH"]         = pd.to_numeric(df_marker["LENGTH"],         errors="coerce")
-    df_marker["ANCHO_FINAL"]    = df_marker["WIDTH_CORTABLE"] + 3
+    df_marker["ANCHO_FINAL"]    = df_marker["WIDTH_CORTABLE"] + 2
     df_marker["CSM_MARKER"]     = (
         (df_marker["ANCHO_FINAL"] / 36) *
         (df_marker["LENGTH"]      / 36) *
