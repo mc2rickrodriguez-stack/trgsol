@@ -686,6 +686,13 @@ if res_asig:
     df_prior   = res_asig["df_res_prioridad"]
 
     with st.expander("📦 Sección 7 — Asignación de Pedidos", expanded=True):
+        # Mostrar cuántos lotes completos vs totales se usaron
+        if res_lotes and not res_lotes.get("df_lotes_res", pd.DataFrame()).empty:
+            _df_r = res_lotes["df_lotes_res"]
+            _n_comp = int((_df_r["COMPLETO"]=="✅ Completo").sum())
+            _n_tot  = len(_df_r)
+            st.info(f"ℹ️ La asignación usa **solo lotes completos** ({_n_comp} de {_n_tot} lotes). Los {_n_tot - _n_comp} lotes incompletos no se procesan.")
+
         nc_ped = int((df_res_ped["ESTADO_PEDIDO"]=="✅ Completo").sum())   if not df_res_ped.empty else 0
         np_ped = int((df_res_ped["ESTADO_PEDIDO"]=="⚠️ Parcial").sum())    if not df_res_ped.empty else 0
         ns_ped = int((df_res_ped["ESTADO_PEDIDO"]=="❌ Sin producción").sum()) if not df_res_ped.empty else 0

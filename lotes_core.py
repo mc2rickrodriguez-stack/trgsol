@@ -358,13 +358,18 @@ def _registrar_lote(lote_id, asignaciones, lbs_lote, completo,
     lbs_comb           = round(lbs_lote + lbs_rib_lote, 4)
     lbs_comb_merma     = round(lbs_lote_merma + lbs_rib_lote_merma, 4)
 
+    # Re-evaluar completo con los totales reales combinados (marker + RIB con mermas)
+    # Esto corrige casos donde CSM_TOTAL_MERMA del pool difiere del cálculo talla-a-talla
+    completo = lbs_min <= lbs_comb_merma <= lbs_max
+
     for row in out_det:
         if row["LOTE_ID"] == lote_id:
-            row["LBS_TOTAL_LOTE_MERMA"]      = lbs_lote_merma
-            row["LBS_RIB_LOTE"]              = lbs_rib_lote
-            row["LBS_RIB_LOTE_MERMA"]        = lbs_rib_lote_merma
-            row["LBS_TOTAL_COMBINADO"]        = lbs_comb
-            row["LBS_TOTAL_COMBINADO_MERMA"] = lbs_comb_merma
+            row["LBS_TOTAL_LOTE_MERMA"]       = lbs_lote_merma
+            row["LBS_RIB_LOTE"]               = lbs_rib_lote
+            row["LBS_RIB_LOTE_MERMA"]         = lbs_rib_lote_merma
+            row["LBS_TOTAL_COMBINADO"]         = lbs_comb
+            row["LBS_TOTAL_COMBINADO_MERMA"]   = lbs_comb_merma
+            row["COMPLETO"]                    = "✅ Completo" if completo else "⚠️ Incompleto"
 
     out_res.append({
         "LOTE_ID":              lote_id,
@@ -398,7 +403,7 @@ def _registrar_lote(lote_id, asignaciones, lbs_lote, completo,
             "LBS_COMBINADO_MERMA": lbs_comb_merma,
             "LBS_MIN":             lbs_min,
             "LBS_MAX":             lbs_max,
-            "MOTIVO":              f"Residuo final — {lbs_comb:.0f} lbs combinado ({lbs_comb_merma:.0f} crudo)",
+            "MOTIVO":              f"Residuo — {lbs_comb_merma:.0f} lbs crudo combinado (rango: {lbs_min:.0f}–{lbs_max:.0f})",
         })
 
 

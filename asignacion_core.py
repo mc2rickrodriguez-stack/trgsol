@@ -76,9 +76,13 @@ def asignar_pedidos(df_lotes_det: pd.DataFrame,
       df_res_prioridad: resumen por prioridad (demanda vs planeado)
     """
     # ── Preparar tabla de producción por lote-SKU ─────────────
+    # Solo considerar lotes COMPLETOS — los incompletos no se procesarán
+    df_lotes_completos = df_lotes_det[df_lotes_det["COMPLETO"] == "✅ Completo"].copy() \
+        if "COMPLETO" in df_lotes_det.columns else df_lotes_det.copy()
+
     # Agrupar QUANTITY por LOTE_ID + ESTILO + TALLA + COLOR
     prod = (
-        df_lotes_det
+        df_lotes_completos
         .groupby(["LOTE_ID", "CATEGORIA", "TAMAÑO_LOTE", "COLOR",
                   "ANCHO_CORTABLE", "ESTILO", "TALLA"], as_index=False)
         ["QUANTITY"]
