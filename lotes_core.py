@@ -1,6 +1,6 @@
 """
 lotes_core.py
-Motor de creación de lotes de teñido — ST350
+Motor de creación de lotes de teñido — TARGET
 
 Lógica:
   Para cada COLOR → ANCHO:
