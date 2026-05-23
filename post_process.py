@@ -1,5 +1,5 @@
 """
-post_process.py — Post-procesamiento de markers para SOLVER ST350
+post_process.py — Post-procesamiento de markers para SOLVER TARGET
 ================================================================
 Módulo independiente. No modifica solver_core.py ni recalcula CSM.
 Solo genera propuestas y TXT Accumark.
@@ -56,7 +56,7 @@ def _divisores(n: int) -> list[int]:
 def _nombre_corto(modelo: str, max_len: int = 6) -> str:
     """Default de nomenclatura corta para el campo o:."""
     modelo = _norm(modelo)
-    # Caso frecuente: ST350 -> ST35, LST350 -> LST3, YST350LS -> YST3L
+    # Caso frecuente: TARGET -> ST35, LTARGET -> LST3, YTARGETLS -> YST3L
     compacto = modelo.replace("350", "3")
     return compacto[:max_len]
 
@@ -99,7 +99,7 @@ def _nombre_marker_desde_items(
     Construye campo o: agrupando tallas por estilo.
 
     Ejemplo:
-      LST350 L=2, M=1, ST350 XL=2, M=2, YST350 S=1
+      LTARGET L=2, M=1, TARGET XL=2, M=2, YTARGET S=1
     → LST3 L_2 M_1 ST35 M_2 XL_2 YST3 S_1-65
     """
     req = {"ESTILO", "TALLA", "PLACED_BUNDLES"}
@@ -694,16 +694,16 @@ def comparar_escenarios(antes: dict[str, Any], despues: dict[str, Any]) -> pd.Da
 
 def datos_sinteticos() -> dict[str, pd.DataFrame]:
     df_lotes_det = pd.DataFrame([
-        {"LOTE_ID": 1, "COLOR": "BLACK", "ANCHO_CORTABLE": 65, "MARKER_NAME": "M1", "ESTILO": "LST350", "TALLA": "L", "PLACED_BUNDLES": 8, "CAPAS_ASIGNADAS": 10},
-        {"LOTE_ID": 1, "COLOR": "BLACK", "ANCHO_CORTABLE": 65, "MARKER_NAME": "M1", "ESTILO": "LST350", "TALLA": "M", "PLACED_BUNDLES": 4, "CAPAS_ASIGNADAS": 10},
-        {"LOTE_ID": 2, "COLOR": "BLACK", "ANCHO_CORTABLE": 65, "MARKER_NAME": "M2", "ESTILO": "LST350", "TALLA": "M", "PLACED_BUNDLES": 1, "CAPAS_ASIGNADAS": 30},
-        {"LOTE_ID": 2, "COLOR": "BLACK", "ANCHO_CORTABLE": 65, "MARKER_NAME": "M2", "ESTILO": "ST350", "TALLA": "XL", "PLACED_BUNDLES": 2, "CAPAS_ASIGNADAS": 30},
+        {"LOTE_ID": 1, "COLOR": "BLACK", "ANCHO_CORTABLE": 65, "MARKER_NAME": "M1", "ESTILO": "LTARGET", "TALLA": "L", "PLACED_BUNDLES": 8, "CAPAS_ASIGNADAS": 10},
+        {"LOTE_ID": 1, "COLOR": "BLACK", "ANCHO_CORTABLE": 65, "MARKER_NAME": "M1", "ESTILO": "LTARGET", "TALLA": "M", "PLACED_BUNDLES": 4, "CAPAS_ASIGNADAS": 10},
+        {"LOTE_ID": 2, "COLOR": "BLACK", "ANCHO_CORTABLE": 65, "MARKER_NAME": "M2", "ESTILO": "LTARGET", "TALLA": "M", "PLACED_BUNDLES": 1, "CAPAS_ASIGNADAS": 30},
+        {"LOTE_ID": 2, "COLOR": "BLACK", "ANCHO_CORTABLE": 65, "MARKER_NAME": "M2", "ESTILO": "TARGET", "TALLA": "XL", "PLACED_BUNDLES": 2, "CAPAS_ASIGNADAS": 30},
     ])
     df_usos = pd.DataFrame()
     df_inc = pd.DataFrame()
     df_comp = pd.DataFrame([
-        {"ANCHO_CORTABLE": 65, "ESTILO": "LST350", "TALLA": "L", "LENGTH": 10, "PLACED_BUNDLES": 2},
-        {"ANCHO_CORTABLE": 65, "ESTILO": "LST350", "TALLA": "M", "LENGTH": 5, "PLACED_BUNDLES": 1},
-        {"ANCHO_CORTABLE": 65, "ESTILO": "ST350", "TALLA": "XL", "LENGTH": 12, "PLACED_BUNDLES": 2},
+        {"ANCHO_CORTABLE": 65, "ESTILO": "LTARGET", "TALLA": "L", "LENGTH": 10, "PLACED_BUNDLES": 2},
+        {"ANCHO_CORTABLE": 65, "ESTILO": "LTARGET", "TALLA": "M", "LENGTH": 5, "PLACED_BUNDLES": 1},
+        {"ANCHO_CORTABLE": 65, "ESTILO": "TARGET", "TALLA": "XL", "LENGTH": 12, "PLACED_BUNDLES": 2},
     ])
     return {"df_usos": df_usos, "df_lotes_det": df_lotes_det, "df_incompletos": df_inc, "df_comp": df_comp}
