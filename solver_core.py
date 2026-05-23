@@ -1,6 +1,6 @@
 """
 solver_core.py
-Motor MILP para asignación de markers ST350.
+Motor MILP para asignación de markers TARGET.
 
 Fórmulas de consumo:
   CSM_MARKER     = (ANCHO_FINAL/36) × (LENGTH/36) × (PESO_OZ/16)
