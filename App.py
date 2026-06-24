@@ -163,8 +163,8 @@ if archivos_ok:
             _cap_base, use_container_width=True, num_rows="dynamic",
             column_config={
                 "GRUPO":          st.column_config.TextColumn("Grupo", width="small"),
-                "ANCHO_FINAL":    st.column_config.NumberColumn("Ancho Final", format="%.0f"),
-                "ANCHO_CORTABLE": st.column_config.NumberColumn("Ancho Cortable", format="%.0f"),
+                "ANCHO_FINAL":    st.column_config.NumberColumn("Ancho Final",    format="%.1f", step=0.5),
+                "ANCHO_CORTABLE": st.column_config.NumberColumn("Ancho Cortable", format="%.1f", step=0.5),
                 "DDGG":           st.column_config.NumberColumn("DDGG", format="%.0f"),
                 "CAPACIDAD":      st.column_config.NumberColumn("Capacidad (lbs)", format="%,.0f", min_value=0),
             },
@@ -380,7 +380,7 @@ if res_solver:
                     st.plotly_chart(f1,use_container_width=True)
                 with g2:
                     if not df_ddgg.empty:
-                        dd=df_ddgg.copy(); dd["L"]=dd["GRUPO"]+" · "+dd["ANCHO_CORTABLE"].astype(int).astype(str)+"\""
+                        dd=df_ddgg.copy(); dd["L"]=dd["GRUPO"]+" · "+dd["ANCHO_CORTABLE"].apply(lambda x: f"{x:g}")+"\""
                         f2=px.bar(dd,x="UTILIZACION_%",y="L",orientation="h",color="UTILIZACION_%",
                                   color_continuous_scale=["#2ecc71","#f39c12","#e74c3c"],range_color=[0,100],
                                   title="Utilización DDGG",text="UTILIZACION_%")
